@@ -87,10 +87,10 @@ def contact_page(request):
                                                     "check_text_size": check_text_size})
         else:
             check_text_size = 1
-            email = EmailMessage(
-            title, text, to=[email]
-            )
-            email.send()
+            # email = EmailMessage(
+            # title, text, to=[email]
+            # )
+            # email.send()
             return redirect('contact-us-done')
 
     return render(request, 'contact.html', {"user_login": user_login,
