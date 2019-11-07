@@ -21,8 +21,8 @@ def register(request):
 
     if (request.POST):
         username = request.POST.get('username')
-        firstname = request.POST.get('first-name')
-        lastname = request.POST.get('last-name')
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
         email = request.POST.get('email')
         pass1 = request.POST.get('password1')
         pass2 = request.POST.get('password2')
