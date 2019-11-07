@@ -42,12 +42,6 @@ def register(request):
             user.last_name = lastname
             user.save()
 
-            # user_profile = UserProfile()
-            # user_profile.user = user
-            # user_profile.userID = user.id
-            # user_profile.save()
-
-            # return redirect('/')
 
     return render(request, 'registration/signup.html', {"user_login": user_login,
                                                         "check_mail": check_mail,
