@@ -100,3 +100,14 @@ def contact_page(request):
 
 def contact_done_page(request):
     return render(request, 'done.html')
+
+
+@login_required(login_url='/')
+def profile_page(request):
+    user = request.user
+    first_name = user.first_name
+    last_name = user.last_name
+    username = user.username
+    return render(request, 'profile.html', {"first_name": first_name,
+                                            "last_name": last_name,
+                                            'username': username})

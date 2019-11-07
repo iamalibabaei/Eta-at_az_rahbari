@@ -26,6 +26,7 @@ urlpatterns = [
     path('logout/', views.logout_page, name='logout'),
     path('contact/', views.contact_page, name='contact-us'),
     path('contact/done', views.contact_done_page, name='contact-us-done'),
+    path('profile/', views.profile_page, name='profile'),
     # path('contact-us/', views.feedback, name='feedback'),
     # path('edit-profile/', views.update_profile, name='update_profile_success'),
     # path('contact-us/', views.feedback, name='feedback'),
