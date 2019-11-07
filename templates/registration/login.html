@@ -9,19 +9,17 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     <div>
-            <form id="login_form" method="post" action=".">
-                {% csrf_token %}
-                <input  type="text" name="username" placeholder="Username"><br>
-                <input  type="password" name="password" placeholder="Password"><br>
-                <button type="submit">ورود</button>
-            </form>
-
+        <form id="login_form" method="post" action=".">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username"><br>
+            <input type="password" name="password" placeholder="Password"><br>
+            <button type="submit" name="submit">ورود</button>
+        </form>
+        <div id=”error”>
             {% if error %}
-                <div class="ui error message">
-                    نام کاربری یا گذرواژه غلط است
-                </div>
+                نام کاربری یا گذرواژه غلط است
             {% endif %}
-
+        </div>
     </div>
 {% endblock %}
 </body>
