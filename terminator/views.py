@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
@@ -70,3 +71,31 @@ def signin(request):
 def logout_page(request):
     logout(request)
     return redirect('index')
+
+
+def contact_page(request):
+    user_login = request.user.is_authenticated
+
+    check_text_size = 0
+    if request.POST:
+        title = request.POST.get('title')
+        email = request.POST.get('email')
+        text = request.POST.get('text')
+        if len(text) < 10 or len(text) > 250:
+            check_text_size = -1
+            return render(request, 'contact.html', {"user_login": user_login,
+                                                    "check_text_size": check_text_size})
+        else:
+            check_text_size = 1
+            email = EmailMessage(
+            title, text, to=[email]
+            )
+            email.send()
+            return redirect('contact-us-done')
+
+    return render(request, 'contact.html', {"user_login": user_login,
+                                            "check_text_size": check_text_size})
+
+
+def contact_done_page(request):
+    return render(request, 'done.html')
