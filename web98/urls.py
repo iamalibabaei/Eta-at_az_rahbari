@@ -20,7 +20,7 @@ from terminator import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('login/', views.signin, name="login"),
     path('register/', views.register, name='register'),
     path('logout/', views.logout_page, name='logout'),
