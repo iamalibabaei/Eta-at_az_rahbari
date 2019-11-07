@@ -132,3 +132,7 @@ def edit_profile_page(request):
     else:
         return render(request, 'edit_profile.html', {'first_name': first_name,
                                                      'last_name': last_name})
+
+
+def panel(request):
+    return render(request, 'panel.html')
