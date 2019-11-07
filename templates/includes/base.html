@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Hello World{% endblock %}</title>
+</head>
+<body>
+<div id="navbar">
+    <a id="homepage" href="{% url 'index' %}">Main Page</a>
+    {% if request.user.is_authenticated %}
+        <a href="{% url "logout" %}">Logout</a>
+    {% else %}
+        <a id="login" href="{% url "login" %}">login</a>
+        <a id="register" href="{% url "register" %}">Register</a>
+    {% endif %}
+{#    <a href="{% url "feedback" %}">Contact Us</a>#}
+</div>
+<p>سلام. به سامانه‌ی انتخاب واحد مجازی خوش آمدید.</p>
+{% block content %}
+{% endblock %}
+</body>
+</html>
