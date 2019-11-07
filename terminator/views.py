@@ -88,10 +88,10 @@ def contact_page(request):
         else:
             check_text_size = 1
             text = email + "\n" + text
-            # send_email = EmailMessage(
-            #     title, text, to=['webe19lopers@gmail.com']
-            # )
-            # send_email.send()
+            send_email = EmailMessage(
+                title, text, to=['webe19lopers@gmail.com']
+            )
+            send_email.send()
             return redirect('contact-us-done')
 
     return render(request, 'contact.html', {"user_login": user_login,
