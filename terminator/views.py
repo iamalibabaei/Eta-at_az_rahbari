@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -112,3 +114,21 @@ def profile_page(request):
     return render(request, 'profile.html', {"first_name": first_name,
                                             "last_name": last_name,
                                             'username': username})
+
+
+def edit_profile_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    first_name = user.first_name
+    last_name = user.last_name
+    if request.POST:
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        return redirect('profile')
+    else:
+        return render(request, 'edit_profile.html', {'first_name': first_name,
+                                                     'last_name': last_name})

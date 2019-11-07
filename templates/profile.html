@@ -11,7 +11,13 @@
     first name: <span id="text_first_name">{{ first_name }}</span><br>
     last name: <span id="text_last_name">{{ last_name }}</span><br>
     username: <span id="text_user_name">{{ username }}</span>
-
+    <div>
+        <a  id="setting" href="{% url 'edit-profile' %}">
+            <button>
+                ویرایش پروفایل
+            </button>
+        </a>
+    </div>
 {% endblock %}
 </body>
 </html>

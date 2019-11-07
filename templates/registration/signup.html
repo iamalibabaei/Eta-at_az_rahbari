@@ -24,12 +24,12 @@
     <div>
         <form method="post" action="." id="register_form">
             {% csrf_token %}
-            نام<br><input id="id_first_name" required type="text" name="first_name" placeholder="نام"><br>
-            نام خانوادگی<br><input id="id_last_name" required type="text" name="last_name" placeholder="نام خانوادگی"><br>
-            نام کاربری<br><input id="id_username" type="text" required name="username" placeholder="Username"><br>
-            ایمیل<br><input id="id_email" type="email" required name="email" placeholder="Email"><br>
-            رمز عبور<br><input id="id_password1" type="password" required name="password1" placeholder="Password"><br>
-            تکرار رمز عبور<br><input id="id_password2" type="password" required name="password2" placeholder="Confirm Password"><br>
+            نام<br><input required type="text" name="first_name" placeholder="نام"><br>
+            نام خانوادگی<br><input required type="text" name="last_name" placeholder="نام خانوادگی"><br>
+            نام کاربری<br><input type="text" required name="username" placeholder="Username"><br>
+            ایمیل<br><input type="email" required name="email" placeholder="Email"><br>
+            رمز عبور<br><input type="password" required name="password1" placeholder="Password"><br>
+            تکرار رمز عبور<br><input type="password" required name="password2" placeholder="Confirm Password"><br>
             <button id="id_submit" name="submit" type="submit">ثبت نام</button>
         </form>
 
