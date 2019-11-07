@@ -104,7 +104,7 @@ def contact_done_page(request):
 
 def profile_page(request):
     if not request.user.is_authenticated:
-        return redirect('index')
+        return redirect('login')
     user = request.user
     first_name = user.first_name
     last_name = user.last_name
