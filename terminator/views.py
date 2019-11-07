@@ -52,7 +52,7 @@ def register(request):
 def signin(request):
     user_login = request.user.is_authenticated
     if user_login:
-        return redirect('/')
+        return redirect('index')
 
     error = False
     if request.POST:
@@ -63,7 +63,7 @@ def signin(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect("/")
+                return redirect('index')
 
     return render(request, 'registration/login.html', {"error": error})
 
@@ -71,4 +71,4 @@ def signin(request):
 @login_required(login_url='/')
 def logout_page(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return redirect('index')
