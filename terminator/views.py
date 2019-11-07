@@ -42,7 +42,6 @@ def register(request):
             user.last_name = lastname
             user.save()
 
-
     return render(request, 'registration/signup.html', {"user_login": user_login,
                                                         "check_mail": check_mail,
                                                         "check_username": check_username,
@@ -61,9 +60,8 @@ def signin(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect('index')
+            login(request, user)
+            return redirect('index')
 
     return render(request, 'registration/login.html', {"error": error})
 
