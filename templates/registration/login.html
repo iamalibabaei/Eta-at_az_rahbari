@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+</head>
+<body>
+{% extends 'includes/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div>
+            <form id="login_form" method="post" action=".">
+                {% csrf_token %}
+                <input  type="text" name="username" placeholder="Username"><br>
+                <input  type="password" name="password" placeholder="Password"><br>
+                <button type="submit">ورود</button>
+            </form>
+
+            {% if error %}
+                <div class="ui error message">
+                    نام کاربری یا گذرواژه غلط است
+                </div>
+            {% endif %}
+
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -21,9 +21,9 @@ from terminator import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('', include('django.contrib.auth.urls')),
+    path('login/', views.signin, name="login"),
     path('register/', views.register, name='register'),
-    # path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('logout/', views.logout_page, name='logout'),
     # path('contact-us/', views.feedback, name='feedback'),
     # path('edit-profile/', views.update_profile, name='update_profile_success'),
     # path('contact-us/', views.feedback, name='feedback'),

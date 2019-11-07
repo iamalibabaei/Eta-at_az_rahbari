@@ -1,4 +1,7 @@
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 
@@ -21,8 +24,8 @@ def register(request):
         firstname = request.POST.get('first-name')
         lastname = request.POST.get('last-name')
         email = request.POST.get('email')
-        pass1 = request.POST.get('pass1')
-        pass2 = request.POST.get('pass2')
+        pass1 = request.POST.get('password1')
+        pass2 = request.POST.get('password2')
 
         users = User.objects.all()
         for u in users:
@@ -44,10 +47,34 @@ def register(request):
             # user_profile.userID = user.id
             # user_profile.save()
 
-            return redirect('/')
+            # return redirect('/')
 
-    return render(request, 'signup.html', {"user_login": user_login,
-                                           "check_mail": check_mail,
-                                           "check_username": check_username,
-                                           "check_password": check_password})
+    return render(request, 'registration/signup.html', {"user_login": user_login,
+                                                        "check_mail": check_mail,
+                                                        "check_username": check_username,
+                                                        "check_password": check_password})
 
+
+def signin(request):
+    user_login = request.user.is_authenticated
+    if user_login:
+        return redirect('/')
+
+    error = False
+    if request.POST:
+        error = True
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect("/")
+
+    return render(request, 'registration/login.html', {"error": error})
+
+
+@login_required(login_url='/')
+def logout_page(request):
+    logout(request)
+    return HttpResponseRedirect('/')

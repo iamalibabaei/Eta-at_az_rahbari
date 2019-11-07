@@ -8,7 +8,20 @@
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <div >
+    {% if not check_username or not check_mail or not check_password %}
+        <div id="errors">
+            {% if not check_username %}
+                نام کاربری شما در سیستم موجود است
+            {% endif %}
+            {% if not check_mail %}
+                کاربری با ایمیل وارد شده وجود دارد
+            {% endif %}
+            {% if not check_password %}
+                گذرواژه و تکرار گذرواژه یکسان نیستند
+            {% endif %}
+        </div>
+    {% endif %}
+    <div>
         <form method="post" action="." id="register_form"> {% csrf_token %}
             نام
             <br>
@@ -35,7 +48,7 @@
             <br>
             <input id="id_password2" type="password" required name="password2" placeholder="Confirm Password">
             <br>
-            <button id="id_submit"  name="submit" type="submit">ثبت نام</button>
+            <button id="id_submit" name="submit" type="submit">ثبت نام</button>
         </form>
 
     </div>
