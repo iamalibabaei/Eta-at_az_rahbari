@@ -226,3 +226,7 @@ def add_course(request, id):
         uc.save()
     # print("XXXXXXXXXXXXXX", uc.user)
     return redirect('courses')
+
+
+def delete_course(request):
+    return None
