@@ -10,21 +10,24 @@
 {% block content %}
     <div id="all_courses">
         {% for course in courses %}
-            <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
-                <h4>{{ course.name }}</h4>
-                <div>{{ course.department }}</div>
-                {% if course.second_day %}
-                    {% load index %}
-                    <div>{{ days|index:course.first_day }} و {{ days|index:course.second_day }}</div>
-                {% else %}
-                    <div>{{ days|index:course.first_day }}</div>
-                {% endif %}
-                <div>{{ course.start_time|time:"H:i" }}
-                    تا
-                    {{ course.end_time|time:"H:i" }}</div>
-                <div>{{ course.teacher }}</div>
-                <a href="/add-course/{{ course.id }}" class="add">add</a>
-            </div>
+            {% if not course in my %}
+                <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
+                    <h4>{{ course.name }}</h4>
+                    <div>{{ course.department }}</div>
+                    {% if course.second_day %}
+                        {% load index %}
+                        <div>{{ days|index:course.first_day }} و {{ days|index:course.second_day }}</div>
+                    {% else %}
+                        <div>{{ days|index:course.first_day }}</div>
+                    {% endif %}
+                    <div>{{ course.start_time|time:"H:i" }}
+                        تا
+                        {{ course.end_time|time:"H:i" }}</div>
+                    <div>{{ course.teacher }}</div>
+                    <a href="/add-course/{{ course.id }}" class="add">add</a>
+                </div>
+            {% endif %}
+
         {% endfor %}
         <form action="." method="post" id="search_form">
             {% csrf_token %}

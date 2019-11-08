@@ -184,6 +184,9 @@ def search_courses(args):
 
 def show_courses(request):
     uc = UserCourse.objects.filter(user=request.user)
+    my_courses = []
+    for u in uc:
+        my_courses.append(u.course)
     courses = Course.objects.all()
     days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
     searched_courses = None
@@ -214,7 +217,8 @@ def show_courses(request):
                                                  'days': days,
                                                  'search_courses': searched_courses,
                                                  'request': request,
-                                                 'uc': uc})
+                                                 'uc': uc,
+                                                 'my': my_courses})
 
 
 def add_course(request, id):
@@ -224,6 +228,7 @@ def add_course(request, id):
     if not x:
         uc = UserCourse(user=user, course=course)
         uc.save()
+        # course.delete()
     # print("XXXXXXXXXXXXXX", uc.user)
     return redirect('courses')
 
