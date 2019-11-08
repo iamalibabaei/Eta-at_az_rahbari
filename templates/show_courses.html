@@ -23,7 +23,7 @@
                     تا
                     {{ course.end_time|time:"H:i" }}</div>
                 <div>{{ course.teacher }}</div>
-                <a href="{% url 'add-course' %}/?id={{ course.id }}" class="add">add</a>
+                <a href="/add-course/{{ course.id }}" class="add">add</a>
             </div>
         {% endfor %}
         <form action="." method="post" id="search_form">
@@ -44,24 +44,22 @@
         {% endif %}
     </div>
     <div id="my_courses">
-        {% for course in courses %}
-            {% if course.user == user %}
-                <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
-                    <h4>{{ course.name }}</h4>
-                    <div>{{ course.department }}</div>
-                    {% if course.second_day %}
-                        {% load index %}
-                        <div>{{ days|index:course.first_day }} و {{ days|index:course.second_day }}</div>
-                    {% else %}
-                        <div>{{ days|index:course.first_day }}</div>
-                    {% endif %}
-                    <div>{{ course.start_time|time:"H:i" }}
-                        تا
-                        {{ course.end_time|time:"H:i" }}</div>
-                    <div>{{ course.teacher }}</div>
-                    <a href="{% url 'add-course' %}/{{ course.id }}" class="add">add</a>
-                </div>
-            {% endif %}
+        {% for u in uc %}
+            <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
+                <h4>{{ u.course.name }}</h4>
+                <div>{{ u.course.department }}</div>
+                {% if u.course.second_day %}
+                    {% load index %}
+                    <div>{{ days|index:u.course.first_day }} و {{ days|index:u.course.second_day }}</div>
+                {% else %}
+                    <div>{{ days|index:u.course.first_day }}</div>
+                {% endif %}
+                <div>{{ u.course.start_time|time:"H:i" }}
+                    تا
+                    {{ u.course.end_time|time:"H:i" }}</div>
+                <div>{{ u.course.teacher }}</div>
+                <a href="/add-course//{{ u.course.id }}" class="add">add</a>
+            </div>
 
         {% endfor %}
 

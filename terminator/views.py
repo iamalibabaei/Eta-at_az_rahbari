@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from terminator.models import Course, Avatar
+from terminator.models import Course, Avatar, UserCourse
 
 
 def index(request):
@@ -183,6 +183,7 @@ def search_courses(args):
 
 
 def show_courses(request):
+    uc = UserCourse.objects.filter(user=request.user)
     courses = Course.objects.all()
     days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
     searched_courses = None
@@ -211,11 +212,17 @@ def show_courses(request):
                     searched_courses = Course.objects.filter(name__contains=search_query)
     return render(request, 'show_courses.html', {'courses': courses,
                                                  'days': days,
-                                                 'search_courses': searched_courses})
+                                                 'search_courses': searched_courses,
+                                                 'request': request,
+                                                 'uc': uc})
 
 
-def add_course(request):
-    course = Course.objects.filter(id=request.GET.get('id')).first()
-    course.user = request.user
-    course.save()
+def add_course(request, id):
+    course = Course.objects.filter(id=id).first()
+    user = request.user
+    x = UserCourse.objects.filter(user=user, course=course)
+    if not x:
+        uc = UserCourse(user=user, course=course)
+        uc.save()
+    # print("XXXXXXXXXXXXXX", uc.user)
     return redirect('courses')
