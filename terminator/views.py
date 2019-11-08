@@ -7,8 +7,10 @@ from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-
 # Create your views here.
+from terminator.models import Course
+
+
 def index(request):
     return render(request, 'includes/base.html')
 
@@ -136,3 +138,47 @@ def edit_profile_page(request):
 
 def panel(request):
     return render(request, 'panel.html')
+
+
+def create_course(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.POST:
+        print(request.POST)
+        department = request.POST.get('department')
+        name = request.POST.get('name')
+        teacher = request.POST.get('teacher')
+        course_number = request.POST.get('course_number')
+        group_number = request.POST.get('group_number')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        first_day = request.POST.get('first_day')
+        second_day = request.POST.get('second_day') or None
+        course = Course(department=department,
+                        name=name,
+                        teacher=teacher,
+                        course_number=course_number,
+                        group_number=group_number,
+                        start_time=start_time,
+                        end_time=end_time,
+                        first_day=first_day,
+                        second_day=second_day,
+                        )
+        # course.department = department
+        # course.name = name
+        # course.teacher = teacher
+        # course.course_number = course_number
+        # course.group_number = group_number
+        # course.start_time = start_time
+        # course.end_time = end_time
+        # course.first_day = first_day
+        # course.second_day = second_day
+        course.save()
+    return render(request, 'create_course.html')
+
+
+def show_courses(request):
+    courses = Course.objects.all()
+    days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
+    return render(request, 'show_courses.html', {'courses': courses,
+                                                 'days': days})

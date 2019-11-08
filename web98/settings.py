@@ -128,3 +128,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ababaei037@gmail.com'
 EMAIL_HOST_PASSWORD = '0371735009'
 EMAIL_PORT = 587
+

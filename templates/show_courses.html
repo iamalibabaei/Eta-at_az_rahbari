@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+</head>
+<body>
+{% extends 'includes/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div id="all_courses">
+        {% for course in courses %}
+            <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
+                <h4>{{ course.name }}</h4>
+                <div>{{ course.department }}</div>
+                {% if course.second_day %}
+                    {% load index %}
+                    <div>{{ days|index:course.first_day }} و {{ days|index:course.second_day }}</div>
+                {% else %}
+                    <div>{{ days|index:course.first_day }}</div>
+                {% endif %}
+                <div>{{ course.start_time|time:"H:i" }}
+                    تا
+                    {{ course.end_time|time:"H:i" }}</div>
+                <div>{{ course.teacher }}</div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
+</body>
+</html>

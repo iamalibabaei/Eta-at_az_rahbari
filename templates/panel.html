@@ -7,5 +7,21 @@
 <body>
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
+{% block content %}
+    {% if request.user.is_superuser %}
+    <a id="make_new_course" href="{% url 'new-course' %}">
+        <button>
+            ساخت واحد
+        </button>
+    </a>
+    {% endif %}
+
+    <br>
+    <a id="courses" href="{% url 'courses' %}">
+        <button>
+            واحدها
+        </button>
+    </a>
+{% endblock %}
 </body>
 </html>
