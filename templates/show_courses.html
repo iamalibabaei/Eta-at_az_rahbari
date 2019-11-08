@@ -28,15 +28,17 @@
         <form action="." method="post" id="search_form">
             {% csrf_token %}
             Department: <input name="search_query" type="text" required><br>
-            Department: <input type="checkbox" name="department">
-            Teacher: <input type="checkbox" name="teacher">
-            Course: <input type="checkbox" name="course">
+            {#            Department: <input type="checkbox" name="department">#}
+            {#            Teacher: <input type="checkbox" name="teacher">#}
+            {#            Course: <input type="checkbox" name="course">#}
             <button type="submit" name="submit" value="submit">submit</button>
         </form>
         {% if search_courses %}
             {% for course in search_courses %}
-                <div id="search_result" class="{{ course.course_number }}_{{ course.group_number }}"></div>
-                <div>{{ course.name }} {{ course.teacher }}</div>
+                <div id="search_result" class="{{ course.course_number }}_{{ course.group_number }}">
+                    <div>{{ course.name }}</div>
+                    <div>{{ course.teacher }}</div>
+                </div>
             {% endfor %}
         {% endif %}
     </div>
