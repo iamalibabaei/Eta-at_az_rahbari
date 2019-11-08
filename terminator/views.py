@@ -189,7 +189,7 @@ def show_courses(request):
         # department = request.POST.get('department')
         # teacher = request.POST.get('teacher')
         # course = request.POST.get('course')
-        searched_courses = Course.objects.filter(department__contains=search_query)
+        searched_courses = Course.objects.filter(department=search_query)
         # if not department and not teacher and not course:
         #     pass
         # else:
