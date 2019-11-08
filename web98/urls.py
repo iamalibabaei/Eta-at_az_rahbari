@@ -35,5 +35,6 @@ urlpatterns = [
                   path('all-course/', views.show_courses, name='courses'),
                   path('add-course/<int:id>', views.add_course, name='add-course'),
                   path('delete-course/<int:id>', views.delete_course, name='delete-course'),
+                  path('show-course/<int:id>', views.show_course, name='delete-course'),
               ] + static(settings.MEDIA_URL,
                          document_root=settings.MEDIA_ROOT)

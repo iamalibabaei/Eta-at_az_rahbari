@@ -25,6 +25,8 @@
                         {{ course.end_time|time:"H:i" }}</div>
                     <div>{{ course.teacher }}</div>
                     <a href="/add-course/{{ course.id }}" class="add">add</a>
+                    <a href="/show-course/{{ u.course.id }}" class="details">detail</a>
+
                 </div>
             {% endif %}
 
@@ -62,8 +64,8 @@
                     {{ u.course.end_time|time:"H:i" }}</div>
                 <div>{{ u.course.teacher }}</div>
                 <a href="/delete-course/{{ u.course.id }}" class="remove">delete</a>
+                <a href="/show-course/{{ u.course.id }}" class="details">detail</a>
             </div>
-
         {% endfor %}
 
     </div>

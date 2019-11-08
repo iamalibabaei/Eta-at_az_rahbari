@@ -186,8 +186,15 @@ def search_courses(args):
 def show_courses(request):
     uc = UserCourse.objects.filter(user=request.user)
     my_courses = []
+    my_date = []
     for u in uc:
         my_courses.append(u.course)
+        my_date.append(u.course.exam_date)
+    for i in my_date:
+        if my_date.count(i) > 1:
+            i = False
+        else:
+            i = True
     courses = Course.objects.all()
     days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
     searched_courses = None
@@ -219,7 +226,8 @@ def show_courses(request):
                                                  'search_courses': searched_courses,
                                                  'request': request,
                                                  'uc': uc,
-                                                 'my': my_courses})
+                                                 'my': my_courses,
+                                                 'date': my_date})
 
 
 def add_course(request, id):
@@ -240,3 +248,10 @@ def delete_course(request, id):
     x = UserCourse.objects.filter(user=user, course=course)
     x.delete()
     return redirect('courses')
+
+
+def show_course(request, id):
+    course = Course.objects.filter(id=id).first()
+    days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
+    return render(request, 'aaaaaa.html', {'course': course,
+                                                'days': days})

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+</head>
+<body>
+{% extends 'includes/base.html' %}
+{% block title %}Login{% endblock %}
+ {% load index %}
+{% block content %}
+
+    <p>{{ course.department }}</p>
+    <p>{{ course.name }}</p>
+    <p>{{ course.course_number }}</p>
+    <p>{{ course.group_number }}</p>
+    <p>{{ course.teacher }}</p>
+    <p>{{ course.start_time|time:"H:i" }}</p>
+    <p>{{ course.end_time|time:"H:i" }}</p>
+    <p>{{ days|index:course.first_day }}</p>
+    <p>{{ days|index:course.second_day }}</p>
+{% endblock %}
+</body>
+</html>
