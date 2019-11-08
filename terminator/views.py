@@ -3,6 +3,7 @@ from itertools import chain
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -137,6 +138,8 @@ def edit_profile_page(request):
         user.last_name = last_name
         user.save()
         avatar.avatar = avatar_src
+        fs = FileSystemStorage()
+        avatar = fs.save(avatar_src.name, avatar_src)
         avatar.save()
         return redirect('profile')
     else:
