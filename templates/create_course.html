@@ -8,7 +8,7 @@
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <form action="." method="post"> {% csrf_token %}
+    <form action="." method="post" id="make_course"> {% csrf_token %}
         Department: <input name="department" type="text" required><br>
         Name: <input name="name" type="text" required><br>
         Course No.: <input name="course_number" type="number" required><br>
