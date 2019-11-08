@@ -9,9 +9,9 @@
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
     {% load static %}
-
+{% load staticfiles %}
 {% block content %}
-    <form action="." method="post" id="setting_form">
+    <form action="." method="post" id="setting_form" enctype="multipart/form-data">
     {% csrf_token %}
         first name:<br>
         <input name="first_name" value="{{ first_name }}"><br>

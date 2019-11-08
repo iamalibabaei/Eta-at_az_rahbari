@@ -129,17 +129,16 @@ def edit_profile_page(request):
     user = request.user
     first_name = user.first_name
     last_name = user.last_name
-    avatar = Avatar.objects.filter(user=user).first() or Avatar(user)
+    avatar = Avatar.objects.filter(user=user).first() or Avatar.objects.create(user=user)
     if request.POST:
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        avatar_src = request.POST.get('avatar')
+        avatar_src = request.FILES.get('avatar')
+        print("XXXXXXXXXXXXXX", type(avatar_src))
         user.first_name = first_name
         user.last_name = last_name
         user.save()
         avatar.avatar = avatar_src
-        fs = FileSystemStorage()
-        avatar = fs.save(avatar_src.name, avatar_src)
         avatar.save()
         return redirect('profile')
     else:
