@@ -36,7 +36,7 @@
         {% if search_courses %}
             {% for course in search_courses %}
                 <div id="search_result" class="{{ course.course_number }}_{{ course.group_number }}"></div>
-                <h4>{{ course.name }}</h4>
+                <div>{{ course.name }}</div>
                 <div>{{ course.teacher }}</div>
             {% endfor %}
         {% endif %}

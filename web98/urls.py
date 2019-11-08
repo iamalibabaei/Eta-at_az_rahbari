@@ -33,7 +33,4 @@ urlpatterns = [
     path('panel', views.panel, name='panel'),
     path('course/', views.create_course, name='new-course'),
     path('all-course/', views.show_courses, name='courses'),
-    # path('contact-us/', views.feedback, name='feedback'),
-    # path('edit-profile/', views.update_profile, name='update_profile_success'),
-    # path('contact-us/', views.feedback, name='feedback'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
