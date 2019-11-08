@@ -134,11 +134,11 @@ def edit_profile_page(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         avatar_src = request.FILES.get('avatar')
-        print("XXXXXXXXXXXXXX", type(avatar_src))
+        if avatar_src:
+            avatar.avatar = avatar_src
         user.first_name = first_name
         user.last_name = last_name
         user.save()
-        avatar.avatar = avatar_src
         avatar.save()
         return redirect('profile')
     else:
@@ -212,3 +212,10 @@ def show_courses(request):
     return render(request, 'show_courses.html', {'courses': courses,
                                                  'days': days,
                                                  'search_courses': searched_courses})
+
+
+def add_course(request):
+    course = Course.objects.filter(id=request.GET.get('id')).first()
+    course.user = request.user
+    course.save()
+    return redirect('courses')

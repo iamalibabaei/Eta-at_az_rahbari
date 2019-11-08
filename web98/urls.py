@@ -33,5 +33,6 @@ urlpatterns = [
                   path('panel', views.panel, name='panel'),
                   path('course/', views.create_course, name='new-course'),
                   path('all-course/', views.show_courses, name='courses'),
+                  path('all-course/add/<int: id>', views.add_course, name='add-course'),
               ] + static(settings.MEDIA_URL,
                          document_root=settings.MEDIA_ROOT)

@@ -15,8 +15,9 @@ class Course(models.Model):
     end_time = models.TimeField()
     first_day = models.IntegerField()
     second_day = models.IntegerField(blank=True, null=True)
+    user = models.ManyToManyField(User)
 
 
 class Avatar(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.FileField(blank=True, null=True,upload_to='media/')
+    avatar = models.FileField(blank=True, null=True, upload_to='media/')

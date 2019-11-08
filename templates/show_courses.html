@@ -23,14 +23,15 @@
                     تا
                     {{ course.end_time|time:"H:i" }}</div>
                 <div>{{ course.teacher }}</div>
+                <a href="{% url 'add-course' %}/?id={{ course.id }}" class="add">add</a>
             </div>
         {% endfor %}
         <form action="." method="post" id="search_form">
             {% csrf_token %}
             Department: <input name="search_query" type="text" required><br>
-                        Department: <input type="checkbox" name="department">
-                        Teacher: <input type="checkbox" name="teacher">
-                        Course: <input type="checkbox" name="course">
+            Department: <input type="checkbox" name="department">
+            Teacher: <input type="checkbox" name="teacher">
+            Course: <input type="checkbox" name="course">
             <button type="submit" name="submit" value="submit">submit</button>
         </form>
         {% if search_courses %}
@@ -41,6 +42,29 @@
             </div>
 
         {% endif %}
+    </div>
+    <div id="my_courses">
+        {% for course in courses %}
+            {% if course.user == user %}
+                <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
+                    <h4>{{ course.name }}</h4>
+                    <div>{{ course.department }}</div>
+                    {% if course.second_day %}
+                        {% load index %}
+                        <div>{{ days|index:course.first_day }} و {{ days|index:course.second_day }}</div>
+                    {% else %}
+                        <div>{{ days|index:course.first_day }}</div>
+                    {% endif %}
+                    <div>{{ course.start_time|time:"H:i" }}
+                        تا
+                        {{ course.end_time|time:"H:i" }}</div>
+                    <div>{{ course.teacher }}</div>
+                    <a href="{% url 'add-course' %}/{{ course.id }}" class="add">add</a>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
     </div>
 {% endblock %}
 </body>
