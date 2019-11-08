@@ -45,7 +45,7 @@
     </div>
     <div id="my_courses">
         {% for u in uc %}
-            <div dir="rtl" class="{{ course.course_number }}_{{ course.group_number }}">
+            <div dir="rtl" class="{{ u.course.course_number }}_{{ u.course.group_number }}">
                 <h4>{{ u.course.name }}</h4>
                 <div>{{ u.course.department }}</div>
                 {% if u.course.second_day %}
@@ -58,7 +58,7 @@
                     تا
                     {{ u.course.end_time|time:"H:i" }}</div>
                 <div>{{ u.course.teacher }}</div>
-{#                <a href="/delete-course/{{ u.course.id }}" class="add">add</a>#}
+                <a href="/delete-course/{{ u.course.id }}" class="add">delete</a>
             </div>
 
         {% endfor %}

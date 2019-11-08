@@ -228,5 +228,9 @@ def add_course(request, id):
     return redirect('courses')
 
 
-def delete_course(request):
-    return None
+def delete_course(request, id):
+    course = Course.objects.filter(id=id).first()
+    user = request.user
+    x = UserCourse.objects.filter(user=user, course=course)
+    x.delete()
+    return redirect('courses')
