@@ -15,6 +15,7 @@ class Course(models.Model):
     end_time = models.TimeField()
     first_day = models.IntegerField()
     second_day = models.IntegerField(blank=True, null=True)
+    exam_date = models.DateField(null=True)
     users = models.ManyToManyField(User)
 
 

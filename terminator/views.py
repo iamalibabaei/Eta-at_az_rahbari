@@ -164,6 +164,7 @@ def create_course(request):
         end_time = request.POST.get('end_time')
         first_day = request.POST.get('first_day')
         second_day = request.POST.get('second_day') or None
+        exam_date = request.POST.get('exam_date')
         course = Course(department=department,
                         name=name,
                         teacher=teacher,
@@ -173,7 +174,7 @@ def create_course(request):
                         end_time=end_time,
                         first_day=first_day,
                         second_day=second_day,
-                        )
+                        exam_date=exam_date)
         course.save()
     return render(request, 'create_course.html')
 
