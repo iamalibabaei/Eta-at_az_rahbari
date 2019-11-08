@@ -186,27 +186,28 @@ def show_courses(request):
     searched_courses = None
     if request.POST:
         search_query = request.POST.get('search_query')
-        department = request.POST.get('department')
-        teacher = request.POST.get('teacher')
-        course = request.POST.get('course')
-        if not department and not teacher and not course:
-            searched_courses = Course.objects.filter(department__contains=search_query)
-        else:
-            if department:
-                if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
-                else:
-                    searched_courses = Course.objects.filter(department__contains=search_query)
-            if teacher:
-                if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
-                else:
-                    searched_courses = Course.objects.filter(teacher__contains=search_query)
-            if course:
-                if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(name__contains=search_query)))
-                else:
-                    searched_courses = Course.objects.filter(name__contains=search_query)
+        # department = request.POST.get('department')
+        # teacher = request.POST.get('teacher')
+        # course = request.POST.get('course')
+        searched_courses = Course.objects.filter(department__contains=search_query)
+        # if not department and not teacher and not course:
+        #     pass
+        # else:
+        #     if department:
+        #         if searched_courses:
+        #             searched_courses = list(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
+        #         else:
+        #             searched_courses = Course.objects.filter(department__contains=search_query)
+        #     if teacher:
+        #         if searched_courses:
+        #             searched_courses = list(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
+        #         else:
+        #             searched_courses = Course.objects.filter(teacher__contains=search_query)
+        #     if course:
+        #         if searched_courses:
+        #             searched_courses = list(chain(searched_courses, Course.objects.filter(name__contains=search_query)))
+        #         else:
+        #             searched_courses = Course.objects.filter(name__contains=search_query)
     return render(request, 'show_courses.html', {'courses': courses,
                                                  'days': days,
                                                  'search_courses': searched_courses})
