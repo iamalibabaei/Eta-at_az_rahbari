@@ -61,7 +61,7 @@
                     تا
                     {{ u.course.end_time|time:"H:i" }}</div>
                 <div>{{ u.course.teacher }}</div>
-                <a href="/delete-course/{{ u.course.id }}" class="add">delete</a>
+                <a href="/delete-course/{{ u.course.id }}" class="remove">delete</a>
             </div>
 
         {% endfor %}
