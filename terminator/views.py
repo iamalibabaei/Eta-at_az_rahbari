@@ -197,17 +197,17 @@ def show_courses(request):
         else:
             if department:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
+                    searched_courses = set(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
                 else:
                     searched_courses = Course.objects.filter(department__contains=search_query)
             if teacher:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
+                    searched_courses = set(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
                 else:
                     searched_courses = Course.objects.filter(teacher__contains=search_query)
             if course:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(name__contains=search_query)))
+                    searched_courses = set(chain(searched_courses, Course.objects.filter(name__contains=search_query)))
                 else:
                     searched_courses = Course.objects.filter(name__contains=search_query)
     return render(request, 'show_courses.html', {'courses': courses,
