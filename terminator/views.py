@@ -36,8 +36,7 @@ def register(request):
         for u in users:
             if u.username == username:
                 check_username = False
-            if u.email == email:
-                check_mail = False
+
 
         check_password = pass1 == pass2
 
