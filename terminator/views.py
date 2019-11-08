@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from terminator.models import Course
+from terminator.models import Course, Avatar
 
 
 def index(request):
@@ -112,9 +112,13 @@ def profile_page(request):
     first_name = user.first_name
     last_name = user.last_name
     username = user.username
+    avatar = Avatar.objects.filter(user=user).first()
+    print(str(avatar.avatar))
+    avatar_src = "/" + avatar.avatar.name
     return render(request, 'profile.html', {"first_name": first_name,
                                             "last_name": last_name,
-                                            'username': username})
+                                            'username': username,
+                                            'avatar': avatar_src})
 
 
 def edit_profile_page(request):
@@ -123,16 +127,22 @@ def edit_profile_page(request):
     user = request.user
     first_name = user.first_name
     last_name = user.last_name
+    avatar = Avatar.objects.filter(user=user).first() or Avatar(user)
     if request.POST:
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
+        avatar_src = request.POST.get('avatar')
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+        print(avatar_src)
+        avatar.avatar = avatar_src
+        avatar.save()
         return redirect('profile')
     else:
         return render(request, 'edit_profile.html', {'first_name': first_name,
-                                                     'last_name': last_name})
+                                                     'last_name': last_name,
+                                                     'avatar': avatar.avatar})
 
 
 def panel(request):
@@ -191,23 +201,23 @@ def show_courses(request):
         course = request.POST.get('course')
         print(department)
         if not department and not teacher and not course:
-            searched_courses = Course.objects.filter(department=search_query)
+            searched_courses = Course.objects.filter(department__contains=search_query)
         else:
             if department:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(department=search_query)))
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
                 else:
-                    searched_courses = Course.objects.filter(department=search_query)
+                    searched_courses = Course.objects.filter(department__contains=search_query)
             if teacher:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(teacher=search_query)))
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
                 else:
-                    searched_courses = Course.objects.filter(teacher=search_query)
+                    searched_courses = Course.objects.filter(teacher__contains=search_query)
             if course:
                 if searched_courses:
-                    searched_courses = list(chain(searched_courses, Course.objects.filter(name=search_query)))
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(name__contains=search_query)))
                 else:
-                    searched_courses = Course.objects.filter(name=search_query)
+                    searched_courses = Course.objects.filter(name__contains=search_query)
     return render(request, 'show_courses.html', {'courses': courses,
                                                  'days': days,
                                                  'search_courses': searched_courses})
