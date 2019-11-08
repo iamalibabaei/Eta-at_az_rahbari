@@ -1,3 +1,4 @@
+from itertools import chain
 from pprint import pprint
 
 from django.contrib.auth import authenticate, logout, login
@@ -36,7 +37,6 @@ def register(request):
         for u in users:
             if u.username == username:
                 check_username = False
-
 
         check_password = pass1 == pass2
 
@@ -176,8 +176,38 @@ def create_course(request):
     return render(request, 'create_course.html')
 
 
+def search_courses(args):
+    pass
+
+
 def show_courses(request):
     courses = Course.objects.all()
     days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
+    searched_courses = None
+    if request.POST:
+        search_query = request.POST.get('search_query')
+        department = request.POST.get('department')
+        teacher = request.POST.get('teacher')
+        course = request.POST.get('course')
+        print(department)
+        if not department and not teacher and not course:
+            searched_courses = Course.objects.filter(department=search_query)
+        else:
+            if department:
+                if searched_courses:
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(department=search_query)))
+                else:
+                    searched_courses = Course.objects.filter(department=search_query)
+            if teacher:
+                if searched_courses:
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(teacher=search_query)))
+                else:
+                    searched_courses = Course.objects.filter(teacher=search_query)
+            if course:
+                if searched_courses:
+                    searched_courses = list(chain(searched_courses, Course.objects.filter(name=search_query)))
+                else:
+                    searched_courses = Course.objects.filter(name=search_query)
     return render(request, 'show_courses.html', {'courses': courses,
-                                                 'days': days})
+                                                 'days': days,
+                                                 'search_courses': searched_courses})

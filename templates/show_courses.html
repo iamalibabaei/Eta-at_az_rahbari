@@ -25,7 +25,20 @@
                 <div>{{ course.teacher }}</div>
             </div>
         {% endfor %}
-
+        <form action="." method="post" id="search_form">
+            {% csrf_token %}
+            Department: <input name="search_query" type="text" required><br>
+            Department: <input type="checkbox" name="department">
+            Teacher: <input type="checkbox" name="teacher">
+            Course: <input type="checkbox" name="course">
+            <button type="submit" value="submit">submit</button>
+        </form>
+        {% if search_courses %}
+            {% for course in search_courses %}
+                <div class="{{ course.course_number }}_{{ course.group_number }}"></div>
+                {{ course.name }} {{ course.teacher }}
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
 </body>
