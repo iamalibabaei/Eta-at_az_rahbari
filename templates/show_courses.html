@@ -36,7 +36,8 @@
         {% if search_courses %}
             {% for course in search_courses %}
                 <div id="search_result" class="{{ course.course_number }}_{{ course.group_number }}">
-                    <div class="{{ course.course_number }}_{{ course.group_number }}">{{ course.name }} {{ course.teacher }}</div>
+                    <div class="{{ course.course_number }}_{{ course.group_number }}">{{ course.name }}</div>
+                    <div class="{{ course.course_number }}_{{ course.group_number }}">{{ course.teacher }}</div>
                 </div>
             {% endfor %}
         {% endif %}
