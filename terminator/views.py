@@ -1,5 +1,4 @@
 from itertools import chain
-from pprint import pprint
 
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
@@ -113,8 +112,10 @@ def profile_page(request):
     last_name = user.last_name
     username = user.username
     avatar = Avatar.objects.filter(user=user).first()
-    print(str(avatar.avatar))
-    avatar_src = "/" + avatar.avatar.name
+    if avatar:
+        avatar_src = "/" + avatar.avatar.name
+    else:
+        avatar_src = ""
     return render(request, 'profile.html', {"first_name": first_name,
                                             "last_name": last_name,
                                             'username': username,
@@ -135,7 +136,6 @@ def edit_profile_page(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
-        print(avatar_src)
         avatar.avatar = avatar_src
         avatar.save()
         return redirect('profile')
@@ -153,7 +153,6 @@ def create_course(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.POST:
-        print(request.POST)
         department = request.POST.get('department')
         name = request.POST.get('name')
         teacher = request.POST.get('teacher')
@@ -173,15 +172,6 @@ def create_course(request):
                         first_day=first_day,
                         second_day=second_day,
                         )
-        # course.department = department
-        # course.name = name
-        # course.teacher = teacher
-        # course.course_number = course_number
-        # course.group_number = group_number
-        # course.start_time = start_time
-        # course.end_time = end_time
-        # course.first_day = first_day
-        # course.second_day = second_day
         course.save()
     return render(request, 'create_course.html')
 
@@ -199,7 +189,6 @@ def show_courses(request):
         department = request.POST.get('department')
         teacher = request.POST.get('teacher')
         course = request.POST.get('course')
-        print(department)
         if not department and not teacher and not course:
             searched_courses = Course.objects.filter(department__contains=search_query)
         else:

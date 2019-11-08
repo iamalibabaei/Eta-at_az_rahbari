@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,8 @@
 <body>
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
+    {% load static %}
+
 {% block content %}
     <form action="." method="post" id="setting_form">
     {% csrf_token %}

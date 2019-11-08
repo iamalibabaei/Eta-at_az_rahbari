@@ -11,8 +11,8 @@
     first name: <span id="text_first_name">{{ first_name }}</span><br>
     last name: <span id="text_last_name">{{ last_name }}</span><br>
     username: <span id="text_user_name">{{ username }}</span><br>
-    avatar: <img src="static/avatars{{ avatar }}" id="profile_image" alt="s"><br>
-    <img src="/static/avatars/images.png">
+    avatar: <img src="/media{{ avatar }}" id="profile_image" alt="{{ avatar     }}"><br>
+{#    <img src="/static/avatars/images.png">#}
     <div>
         <a  id="setting" href="{% url 'edit-profile' %}">
             <button>
