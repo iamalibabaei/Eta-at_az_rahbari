@@ -6,7 +6,6 @@
 </head>
 <body>
 {% extends 'includes/base.html' %}
-{% block title %}Login{% endblock %}
 {% block content %}
     {% if request.user.is_superuser %}
     <a id="make_new_course" href="{% url 'new-course' %}">
