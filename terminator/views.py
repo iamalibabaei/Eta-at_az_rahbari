@@ -1,14 +1,11 @@
 from itertools import chain
 
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.files.storage import FileSystemStorage
-from django.core.mail import send_mail, EmailMessage
-from django.http import HttpResponseRedirect
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 
-# Create your views here.
+from terminator.forms import SignUpForm, LoginForm, ContactUsForm
 from terminator.models import Course, Avatar, UserCourse
 
 
@@ -17,57 +14,36 @@ def index(request):
 
 
 def register(request):
-    user_login = request.user.is_authenticated
-    # if user_login:
-    #     return redirect('/profile')
+    if request.user.is_authenticated:
+        return redirect('/profile')
 
-    check_mail = True
-    check_username = True
-    check_password = True
+    if request.method == "GET":
+        form = SignUpForm()
+        return render(request, 'registration/signup.html', {'form': form})
 
-    if (request.POST):
-        username = request.POST.get('username')
-        firstname = request.POST.get('first_name')
-        lastname = request.POST.get('last_name')
-        email = request.POST.get('email')
-        pass1 = request.POST.get('password1')
-        pass2 = request.POST.get('password2')
-
-        users = User.objects.all()
-        for u in users:
-            if u.username == username:
-                check_username = False
-
-        check_password = pass1 == pass2
-
-        if check_mail and check_username and check_password:
-            user = User.objects.create_user(username, email, pass1)
-            user.first_name = firstname
-            user.last_name = lastname
-            user.save()
-
-    return render(request, 'registration/signup.html', {"user_login": user_login,
-                                                        "check_mail": check_mail,
-                                                        "check_username": check_username,
-                                                        "check_password": check_password})
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        return render(request, 'registration/signup.html', {'form': form})
 
 
 def signin(request):
-    user_login = request.user.is_authenticated
-    if user_login:
+    if request.user.is_authenticated:
         return redirect('index')
 
-    error = False
-    if request.POST:
-        error = True
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-
-    return render(request, 'registration/login.html', {"error": error})
+    if request.method == "POST":
+        form = LoginForm(request=request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+        return render(request, 'registration/login.html', {"form": form})
+    if request.method == "GET":
+        form = LoginForm(request)
+        return render(request, 'registration/login.html', {"form": form})
 
 
 @login_required(login_url='/')
@@ -77,32 +53,28 @@ def logout_page(request):
 
 
 def contact_page(request):
-    user_login = request.user.is_authenticated
-
-    check_text_size = 0
-    if request.POST:
-        title = request.POST.get('title')
-        email = request.POST.get('email')
-        text = request.POST.get('text')
-        if len(text) < 10 or len(text) > 250:
-            check_text_size = -1
-            return render(request, 'contact.html', {"user_login": user_login,
-                                                    "check_text_size": check_text_size})
-        else:
-            check_text_size = 1
-            text = email + "\n" + text
+    done = False
+    if request.method == "POST":
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            text = form.cleaned_data['text']
+            title = form.cleaned_data['title']
             send_email = EmailMessage(
-                title, text, to=['webe19lopers@gmail.com']
+                subject=title, body=text, to=[email]
             )
             send_email.send()
-            return redirect('contact-us-done')
-
-    return render(request, 'contact.html', {"user_login": user_login,
-                                            "check_text_size": check_text_size})
-
-
-def contact_done_page(request):
-    return render(request, 'done.html')
+            done = True
+        return render(request, 'contact.html', {
+            "form": form,
+            "done": done
+        })
+    if request.method == "GET":
+        form = ContactUsForm()
+        return render(request, 'contact.html', {
+            "form": form,
+            "done": done
+        })
 
 
 def profile_page(request):
@@ -208,12 +180,14 @@ def show_courses(request):
         else:
             if department:
                 if searched_courses:
-                    searched_courses = set(chain(searched_courses, Course.objects.filter(department__contains=search_query)))
+                    searched_courses = set(
+                        chain(searched_courses, Course.objects.filter(department__contains=search_query)))
                 else:
                     searched_courses = Course.objects.filter(department__contains=search_query)
             if teacher:
                 if searched_courses:
-                    searched_courses = set(chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
+                    searched_courses = set(
+                        chain(searched_courses, Course.objects.filter(teacher__contains=search_query)))
                 else:
                     searched_courses = Course.objects.filter(teacher__contains=search_query)
             if course:
@@ -254,4 +228,4 @@ def show_course(request, id):
     course = Course.objects.filter(id=id).first()
     days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', ]
     return render(request, 'aaaaaa.html', {'course': course,
-                                                'days': days})
+                                           'days': days})

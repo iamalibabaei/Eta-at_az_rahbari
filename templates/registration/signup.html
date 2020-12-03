@@ -8,32 +8,14 @@
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    {% if not check_username or not check_mail or not check_password %}
-        <div id="errors">
-            {% if not check_username %}
-                نام کاربری شما در سیستم موجود است
-            {% endif %}
-            {% if not check_mail %}
-                کاربری با ایمیل وارد شده وجود دارد
-            {% endif %}
-            {% if not check_password %}
-                گذرواژه و تکرار گذرواژه یکسان نیستند
-            {% endif %}
-        </div>
-    {% endif %}
     <div>
-        <form method="post" action="." id="register_form">
+        <form method="POST" action="." id="register_form">
             {% csrf_token %}
-            نام<br><input required type="text" name="first_name" placeholder="نام"><br>
-            نام خانوادگی<br><input required type="text" name="last_name" placeholder="نام خانوادگی"><br>
-            نام کاربری<br><input type="text" required name="username" placeholder="Username"><br>
-            ایمیل<br><input type="email" required name="email" placeholder="Email"><br>
-            رمز عبور<br><input type="password" required name="password1" placeholder="Password"><br>
-            تکرار رمز عبور<br><input type="password" required name="password2" placeholder="Confirm Password"><br>
-            <button id="id_submit" name="submit" type="submit">ثبت نام</button>
+            {{ form.as_p }}
+            <button type="submit">
+                submit
+            </button>
         </form>
-
-    </div>
     </div>
 {% endblock %}
 </body>

@@ -8,15 +8,18 @@
 {% extends 'includes/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
+    {% if done %}
+    <div>
+        <div id="done"> درخواست شما ثبت شد</div>
+    </div>
+    {% endif %}
     <div>
         {% if  check_text_size == -1 %}
             متن پیام باید بین ۱۰ تا ۲۵۰ حرف باشد
         {% endif %}
         <form id="contact_us_form" action="." method="post">
             {% csrf_token %}
-            عنوان<br><input id="id_title" required type="text" name="title" placeholder="عنوان متن"><br>
-            متن پیام<br><textarea id="id_text" required name="text" placeholder="متن پیام"></textarea><br>
-            ایمیل<br><input id="id_email" type="email" required name="email" placeholder="Email"><br>
+            {{form.as_p}}
             <button type="submit"> ارسال پیام</button>
         </form>
 
